@@ -1,5 +1,4 @@
 import org.scalatest._
-import Matchers._
 import org.scalatest.FunSuite
 import util.control.Breaks._
 
