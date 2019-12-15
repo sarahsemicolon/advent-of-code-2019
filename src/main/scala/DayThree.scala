@@ -12,7 +12,7 @@ object DayThree {
   private def distanceFromOrigin(point: Point) : Int = Math.abs(point.x) + Math.abs(point.y)
 
   private def pointsVisited(path : String) : Seq[Point] = {
-    var pointsVisited : Seq[Point] = Seq()
+    var pointsVisited : Vector[Point] = Vector()
     var currentPoint = Point(0, 0)
 
     for (instruction <- path.split(",")) {
@@ -24,7 +24,15 @@ object DayThree {
     return pointsVisited
   }
 
+  private def findCrossingPoints(path1: String, path2: String) = {
+    pointsVisited(path1) intersect pointsVisited(path2)
+  }
+
   def findDistanceToClosestCrossing(path1 : String, path2 : String) : Int = {
-    distanceFromOrigin(pointsVisited(path1) intersect pointsVisited(path2) minBy { point => distanceFromOrigin(point) })
+    distanceFromOrigin(findCrossingPoints(path1, path2) minBy { point => distanceFromOrigin(point) })
+  }
+
+  def findStepsToClosestCrossing(path1 : String, path2 : String) : Int = {
+    findCrossingPoints(path1, path2).map(point => pointsVisited(path1).indexOf(point) + pointsVisited(path2).indexOf(point) + 2).min
   }
 }
