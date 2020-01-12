@@ -25,10 +25,10 @@ object Computer {
 
         val mode1 = instruction(instruction.length - 3)
         val param1 = if (mode1 equals immediateMode) code(position + 1) else code(code(position + 1))
-//        val param1 = code(position + 1)
 
         opCode match {
           case 3 =>
+            // always use immediate mode
             code = code.updated(code(position + 1), inputInstruction)
             position += opCodeInstructionLength(opCode)
             break
@@ -42,7 +42,7 @@ object Computer {
         val mode2 = instruction(instruction.length - 4)
         val param2 = if (mode2 equals immediateMode) code(position + 2) else code(code(position + 2))
 
-        val mode3 = instruction(instruction.length - 5)
+        //Always use immediate mode for param3 at the moment
         val param3 = code(position + 3)
 
         opCode match {
