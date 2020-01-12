@@ -32,31 +32,22 @@ object Computer {
         val opCode = instruction.takeRight(2).toInt
         instruction = instruction.reverse.padTo(opCodeInstructionLength(opCode) + 1, "0").reverse.mkString
 
-        val param1 = getParam(1)
-
         opCode match {
+          case 1 =>
+            code = code.updated(getParam(3, true), getParam(1) + getParam(2))
+            position += opCodeInstructionLength(opCode)
+          case 2 =>
+            code = code.updated(getParam(3, true), getParam(1) * getParam(2))
+            position += opCodeInstructionLength(opCode)
           case 3 =>
             // always use immediate mode
             code = code.updated(getParam(1, true), inputInstruction)
             position += opCodeInstructionLength(opCode)
             break
           case 4 =>
-            output += param1
+            output += getParam(1)
             position += opCodeInstructionLength(opCode)
             break
-          case _ =>
-        }
-
-        val param2 = getParam(2)
-        val param3 = getParam(3, true)
-
-        opCode match {
-          case 1 =>
-            code = code.updated(param3, param1 + param2)
-            position += opCodeInstructionLength(opCode)
-          case 2 =>
-            code = code.updated(param3, param1 * param2)
-            position += opCodeInstructionLength(opCode)
         }
       }
     }}
