@@ -12,24 +12,32 @@ object Computer {
     3 -> 2,
     4 -> 2)
 
+  var code = Seq[Int]()
+  var instruction = ""
+  var position = 0
+
+  def getParam(paramPosition: Int, forceImmediateMode: Boolean = false) = {
+    val mode = instruction(instruction.length - (2 + paramPosition))
+    if (forceImmediateMode || (mode equals immediateMode)) code(position + paramPosition) else code(code(position + paramPosition))
+  }
+
   def runProgram (input : Seq[Int], inputInstruction : Int = 0) : (Seq[Int], Seq[Int]) = {
-    var code = input
-    var position = 0
+    code = input
+    position = 0
     var output = new ListBuffer[Int]()
     breakable { while (position < code.length) {
       if (code(position) equals 99) break
       breakable {
-        var instruction = code(position).toString
+        instruction = code(position).toString
         val opCode = instruction.takeRight(2).toInt
         instruction = instruction.reverse.padTo(opCodeInstructionLength(opCode) + 1, "0").reverse.mkString
 
-        val mode1 = instruction(instruction.length - 3)
-        val param1 = if (mode1 equals immediateMode) code(position + 1) else code(code(position + 1))
+        val param1 = getParam(1)
 
         opCode match {
           case 3 =>
             // always use immediate mode
-            code = code.updated(code(position + 1), inputInstruction)
+            code = code.updated(getParam(1, true), inputInstruction)
             position += opCodeInstructionLength(opCode)
             break
           case 4 =>
@@ -39,11 +47,8 @@ object Computer {
           case _ =>
         }
 
-        val mode2 = instruction(instruction.length - 4)
-        val param2 = if (mode2 equals immediateMode) code(position + 2) else code(code(position + 2))
-
-        //Always use immediate mode for param3 at the moment
-        val param3 = code(position + 3)
+        val param2 = getParam(2)
+        val param3 = getParam(3, true)
 
         opCode match {
           case 1 =>
