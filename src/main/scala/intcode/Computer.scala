@@ -10,7 +10,11 @@ object Computer {
     1 -> 4,
     2 -> 4,
     3 -> 2,
-    4 -> 2)
+    4 -> 2,
+    5 -> 3,
+    6 -> 3,
+    7 -> 4,
+    8 -> 4)
 
   var code = Seq[Int]()
   var instruction = ""
@@ -46,6 +50,29 @@ object Computer {
             break
           case 4 =>
             output += getParam(1)
+            position += opCodeInstructionLength(opCode)
+            break
+          case 5 =>
+            if (!(getParam(1) equals 0)) {
+              position = getParam(2)
+            } else {
+              position += opCodeInstructionLength(opCode)
+            }
+            break
+          case 6 =>
+            if (getParam(1) equals 0) {
+              position = getParam(2)
+            } else {
+              position += opCodeInstructionLength(opCode)
+            }
+          case 7 =>
+            code = code.updated(getParam(3, true),
+              if (getParam(1) < getParam(2)) 1 else 0)
+            position += opCodeInstructionLength(opCode)
+            break
+          case 8 =>
+            code = code.updated(getParam(3, true),
+              if (getParam(1).equals(getParam(2))) 1 else 0)
             position += opCodeInstructionLength(opCode)
             break
         }
