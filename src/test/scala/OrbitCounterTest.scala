@@ -15,6 +15,22 @@ class OrbitCounterTest extends FunSuite with Matchers {
       |K)L
       |""".stripMargin
 
+  var testInput2 =
+    """COM)B
+      |B)C
+      |C)D
+      |D)E
+      |E)F
+      |B)G
+      |G)H
+      |D)I
+      |E)J
+      |J)K
+      |K)L
+      |K)YOU
+      |I)SAN
+      |""".stripMargin
+
   var input =
     """Z4X)3VF
       |HXK)QWX
@@ -1030,8 +1046,13 @@ class OrbitCounterTest extends FunSuite with Matchers {
       |5KM)JC2
       |FKN)SNJ""".stripMargin
 
-  test(s"Test output should be as expected") {
+  test(s"Test output for countOrbitsInMap should be as expected") {
     OrbitCounter.countOrbitsInMap(testInput) should be (42)
-    OrbitCounter.countOrbitsInMap(input) should be (42)
+    OrbitCounter.countOrbitsInMap(input) should be (142915)
+  }
+
+  test(s"Test output for countOrbitsTransfersInMap should be as expected") {
+    OrbitCounter.countOrbitsTransfersInMap(testInput2) should be (4)
+    OrbitCounter.countOrbitsTransfersInMap(input) should be (283)
   }
 }
