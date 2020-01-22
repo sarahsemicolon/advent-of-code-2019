@@ -5,9 +5,9 @@ import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks.{break, breakable}
 
 class Computer {
-  val immediateMode = '1'
+  private val immediateMode = '1'
 
-  val opCodeInstructionLength = Map(
+  private val opCodeInstructionLength = Map(
     1 -> 4,
     2 -> 4,
     3 -> 2,
@@ -17,11 +17,11 @@ class Computer {
     7 -> 4,
     8 -> 4)
 
-  var software = Seq[Int]()
-  var instruction = ""
-  var position = 0
+  private var software = Seq[Int]()
+  private var instruction = ""
+  private var position = 0
 
-  def getParam(paramPosition: Int, forceImmediateMode: Boolean = false) = {
+  private def getParam(paramPosition: Int, forceImmediateMode: Boolean = false) = {
     val mode = instruction(instruction.length - (2 + paramPosition))
     if (forceImmediateMode || (mode equals immediateMode)) software(position + paramPosition) else software(software(position + paramPosition))
   }
