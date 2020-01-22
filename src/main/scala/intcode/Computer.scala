@@ -1,5 +1,6 @@
 package intcode
 
+import scala.collection.immutable.Queue
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks.{break, breakable}
 
@@ -25,7 +26,7 @@ object Computer {
     if (forceImmediateMode || (mode equals immediateMode)) software(position + paramPosition) else software(software(position + paramPosition))
   }
 
-  def runProgram (softwareParam : Seq[Int], inputInstruction : Int = 0) : (Seq[Int], Seq[Int]) = {
+  def runProgram (softwareParam : Seq[Int], input : Queue[Int] = Queue[Int]()) : (Seq[Int], Seq[Int]) = {
     software = softwareParam
     position = 0
     var output = new ListBuffer[Int]()
@@ -45,7 +46,7 @@ object Computer {
             position += opCodeInstructionLength(opCode)
           case 3 =>
             // always use immediate mode
-            software = software.updated(getParam(1, true), inputInstruction)
+            software = software.updated(getParam(1, true), input.dequeue._1)
             position += opCodeInstructionLength(opCode)
             break
           case 4 =>
