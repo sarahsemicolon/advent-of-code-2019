@@ -1,6 +1,6 @@
 package intcode
 
-import scala.collection.immutable.Queue
+import scala.collection.mutable.Queue
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks.{break, breakable}
 
@@ -46,7 +46,7 @@ object Computer {
             position += opCodeInstructionLength(opCode)
           case 3 =>
             // always use immediate mode
-            software = software.updated(getParam(1, true), input.dequeue._1)
+            software = software.updated(getParam(1, true), input.dequeue)
             position += opCodeInstructionLength(opCode)
             break
           case 4 =>

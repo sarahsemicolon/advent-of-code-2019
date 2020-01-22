@@ -2,8 +2,7 @@ package intcode
 
 import org.scalatest.{FunSuite, _}
 
-import scala.collection.immutable.Queue
-import scala.util.control.Breaks._
+import scala.collection.mutable.Queue
 
 class DayFiveComputerTest extends FunSuite with Matchers{
   case class OutputTestCase(input: Seq[Int], inputParam: Queue[Int], expectedOutput: Int)
