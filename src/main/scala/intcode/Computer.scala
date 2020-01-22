@@ -4,7 +4,7 @@ import scala.collection.mutable.Queue
 import scala.collection.mutable.ListBuffer
 import scala.util.control.Breaks.{break, breakable}
 
-object Computer {
+class Computer {
   val immediateMode = '1'
 
   val opCodeInstructionLength = Map(
@@ -86,6 +86,6 @@ object Computer {
   {
     var program = input.updated(1, noun)
     program = program.updated(2, verb)
-    Computer.runProgram(program)
+    this.runProgram(program)
   }
 }
